@@ -1,12 +1,12 @@
 #ciridiri: dead simple wiki engine on circumflex
 
-ciridiri is a wiki-like web application. It is based on [circumflex](http://circumflex.ru) and
+ciridiri is a wiki-like web application. It is based on [circumflex][] and
 ideas of [diri](http://repo.cat-v.org/diri/).
 
 ##Requirements
 
 * maven
-* [circumflex](http://circumflex.ru)
+* [circumflex][]
 
 ##Installation
     git clone git://github.com/vast/ciridiri.git
@@ -27,4 +27,7 @@ ciridiri uses [markdown](http://daringfireball.net/projects/markdown/) to format
 See `src/main/resources/cx.properties`
 
 ##See also
-[circumflex](http://circumflex.ru): lightweight Scala-based Web application framework and ORM 
+[circumflex][]: lightweight Scala-based Web application framework and ORM
+
+
+[circumflex]: http://circumflex.ru/
