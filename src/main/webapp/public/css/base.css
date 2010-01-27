@@ -67,10 +67,9 @@ html{
 	min-height:101%;
 }
 body{
-	font-size:100%;
 	font-family:Georgia, "Times New Roman", serif;
 	color:#444;
-	background: #fff;
+	background:#fff;
 	border-top:0.5em solid #444;
 	padding:0 1em;
 }
@@ -202,7 +201,7 @@ abbr{
 code { /* Styling for and code type items */
 	font-family: consolas, lucida console, bitstream vera sans mono, courier new, monospace;
 	font-size:1em;
-  color: #007A00
+        color: #007A00
 }
 /*-------------------------------------------+
 |                                            |
@@ -240,7 +239,6 @@ ul{
 	list-style:square inside;
 }
 ul li{
-	font-size:1.2em;
 	line-height:1.5em;
 }
 ul li.caption{ /* Apply this class to the first list item in a list to give it a caption */
@@ -260,7 +258,6 @@ ol{
 	list-style:decimal inside;
 }
 ol li{
-	font-size:1.2em;
 	line-height:1.5em;
 }
 /*-------------------------------------------+
