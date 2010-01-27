@@ -1,6 +1,7 @@
 package ru.ciridiri
 
 import _root_.ru.circumflex.core.RequestRouter
+import _root_.ru.circumflex.core.Circumflex
 import _root_.ru.circumflex.freemarker.FreemarkerHelper
 import _root_.java.text.SimpleDateFormat
 import _root_.java.util.Date
@@ -28,11 +29,15 @@ class Main extends RequestRouter
   }
 
   post("/(.*)\\.html") = {
-    var page = Page.findByUriOrEmpty(param("uri$1").get)
-    page.content = param("content").get
-    page.save
-    ctx += "p" -> page
-    redirect(ctx.uri)
+    if (Circumflex.cfg("pages.password").get != param("password").get) {
+      error(403, "Forbidden: password mismatch")
+    } else {
+      var page = Page.findByUriOrEmpty(param("uri$1").get)
+      page.content = param("content").get
+      page.save
+      ctx += "p" -> page
+      redirect(ctx.uri)
+    }
   }
 
 }

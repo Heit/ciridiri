@@ -16,11 +16,15 @@ ideas of [diri](http://repo.cat-v.org/diri/).
 And point your browser to http://localhost:8180/
 
 ##Usage
+Note: default password is `pass`.
 
 The usage is very simple. Create new pages through accessing `http://localhost:8180/path/to/new/page.html`.
 Edit existent page through accessing `http://localhost:8180/existent/page.html.e` or just press `ctrl-e`.
 
 ciridiri uses [markdown](http://daringfireball.net/projects/markdown/) to format pages.
+
+##Configuration
+See `src/main/resources/cx.properties`
 
 ##See also
 [circumflex](http://circumflex.ru): lightweight Scala-based Web application framework and ORM 
