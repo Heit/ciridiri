@@ -1,3 +1,6 @@
 .idea/*
 target/*
 src/main/webapp/pages/*
+*.iml
+*.iws
+*.ipr
