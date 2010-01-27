@@ -13,7 +13,7 @@ class Page(val uri : String, var content : String) {
   def save() = {
     val file = new File(path)
     if (!file.exists) forceMkdir(new File(FilenameUtils.getFullPath(path))) 
-    writeStringToFile(file, content)
+    writeStringToFile(file, content, "UTF-8")
   }
 
 }
@@ -31,7 +31,7 @@ object Page {
   def findByUri(uri : String) : Option[Page] = {
     val file = new File(pathFromUri(uri))
       if (file.exists) {
-        return Some(new Page(uri, readFileToString(file)))
+        return Some(new Page(uri, readFileToString(file, "UTF-8")))
       } else {
         return None
       }
