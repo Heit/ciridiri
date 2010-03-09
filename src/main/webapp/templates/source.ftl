@@ -1,0 +1,2 @@
+[#ftl]
+${p.content}

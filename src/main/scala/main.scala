@@ -23,6 +23,15 @@ class Main extends RequestRouter
       redirect(ctx.uri + ".e")
   }
 
+  get("/(.*)\\.md") = Page.findByUri(param("uri$1").get) match {
+    case Some(page) =>
+      ctx += "p" -> page
+      contentType("text/plain; charset=utf-8")
+      ftl("source.ftl")
+    case None =>
+      error(404, "Page not found")
+  }
+
   get("/(.*)\\.html.e") = {
     ctx += "p" -> Page.findByUriOrEmpty(param("uri$1").get)
     ftl("edit.ftl")
