@@ -25,9 +25,8 @@ class Main extends RequestRouter
 
   get("/(.*)\\.md") = Page.findByUri(param("uri$1").get) match {
     case Some(page) =>
-      ctx += "p" -> page
       contentType("text/plain; charset=utf-8")
-      ftl("source.ftl")
+      page.content
     case None =>
       error(404, "Page not found")
   }
