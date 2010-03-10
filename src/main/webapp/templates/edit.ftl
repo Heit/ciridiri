@@ -2,7 +2,7 @@
 [#include "layout.ftl"]
 [@page]
 <h1>Edit page</h1>
-<form action="${p.uri}.html" method="post">
+<form action="${p.uri}.html" method="post" onkeypress="ctrlEnterSubmit(event, this)">
 <fieldset>
   <div>
     <textarea rows="30" cols="20" name="content" style="width: 100%">${p.content?html}</textarea>
