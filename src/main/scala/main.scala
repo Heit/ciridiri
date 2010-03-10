@@ -13,9 +13,9 @@ class Main extends RequestRouter
   val log = LoggerFactory.getLogger("ru.ciridiri")
   ctx += "h" -> Helpers 
 
-  get("/") = redirect("/index.html") 
+  get("/") = redirect("/index.html")
 
-  get("/(.*)\\.html") = Page.findByUri(param("uri$1").get) match {
+  get("(.*)\\.html") = Page.findByUri(param("uri$1").get) match {
     case Some(page) =>
       ctx += "p" -> page
       ftl("page.ftl")
@@ -23,7 +23,7 @@ class Main extends RequestRouter
       redirect(ctx.uri + ".e")
   }
 
-  get("/(.*)\\.md") = Page.findByUri(param("uri$1").get) match {
+  get("(.*)\\.md") = Page.findByUri(param("uri$1").get) match {
     case Some(page) =>
       contentType("text/plain; charset=utf-8")
       page.content
@@ -31,12 +31,12 @@ class Main extends RequestRouter
       error(404, "Page not found")
   }
 
-  get("/(.*)\\.html.e") = {
+  get("(.*)\\.html.e") = {
     ctx += "p" -> Page.findByUriOrEmpty(param("uri$1").get)
     ftl("edit.ftl")
   }
 
-  post("/(.*)\\.html") = {
+  post("(.*)\\.html") = {
     if (Circumflex.cfg("pages.password").get != param("password").get) {
       error(403, "Forbidden: password mismatch")
     } else {

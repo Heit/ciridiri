@@ -7,7 +7,7 @@ import ru.circumflex.core._
 import java.util.regex.{Pattern, Matcher}
 
 class Page(val uri : String, var content : String) {
-  val path = FilenameUtils.concat(Page.contentDir, uri.replaceAll("/", File.separator) + ".md")
+  val path = Page.pathFromUri(uri)
   val title = Page.findTitle(content)
 
   def save() = {
@@ -20,13 +20,12 @@ class Page(val uri : String, var content : String) {
 
 object Page {
   var contentDir = Circumflex.cfg("pages.root").getOrElse("src/main/webapp/pages").toString
+  val sourceExt = ".md"
   val mdTitle = Pattern.compile("^#{1,6}(.*)(#{1,6})?$", Pattern.MULTILINE)
 
-  def pathFromUri(uri : String) = contentDir.replaceAll(File.separator + "$", "") + 
-         "/"  + uri.replaceAll("/", File.separator) + ".md"
+  def pathFromUri(uri : String) = FilenameUtils.concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt).replaceAll("^/", ""))
 
-  def uriFromPath(path : String) = path.replaceAll("\\.md$", "").replaceAll("^" + contentDir, "")
-                                       .replaceAll(File.separator, "/")
+  def uriFromPath(path : String) = FilenameUtils.separatorsToUnix(new File(path).getAbsolutePath.replaceAll("^" + new File(contentDir).getAbsolutePath, "").replaceAll(sourceExt + "$", ""))
 
   def findByUri(uri : String) : Option[Page] = {
     val file = new File(pathFromUri(uri))
@@ -36,6 +35,8 @@ object Page {
         return None
       }
   }
+
+  def findByPath(path : String) : Option[Page] = findByUri(uriFromPath(path))
 
   def findByUriOrEmpty(uri : String) = findByUri(uri).getOrElse(new Page(uri, ""))
 

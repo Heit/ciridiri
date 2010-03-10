@@ -8,7 +8,7 @@
     <link rel="stylesheet" media="print" href="/css/print.css" />
     <script src="/js/application.js"></script>
     [#if p?? && .template_name != 'edit.ftl']
-      <link rel="alternate" id="edit-link" type="application/x-wiki" title="Edit this page" href="/${p.uri}.html.e" />
+      <link rel="alternate" id="edit-link" type="application/x-wiki" title="Edit this page" href="${p.uri}.html.e" />
     [/#if]
     <title>
       [#if p?? && p.title != '']
