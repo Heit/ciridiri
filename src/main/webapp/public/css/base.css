@@ -198,11 +198,12 @@ abbr{
 	margin-right:2em;
 	margin-left:0;
 }
-code { /* Styling for and code type items */
+pre, code { /* Styling for and code type items */
 	font-family: consolas, lucida console, bitstream vera sans mono, courier new, monospace;
-	font-size:1em;
+	font-size: 87.5%;
         color: #007A00
 }
+pre code {font-size: 1em}
 /*-------------------------------------------+
 |                                            |
 |               IMAGE STYLES                 |
