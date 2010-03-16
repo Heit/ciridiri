@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
 import ru.circumflex.core._
 import java.util.regex.{Pattern, Matcher}
+import java.util.Date
 
 class Page(val uri : String, var content : String) {
   val path = Page.pathFromUri(uri)
@@ -12,8 +13,15 @@ class Page(val uri : String, var content : String) {
 
   def save() = {
     val file = new File(path)
-    if (!file.exists) forceMkdir(new File(FilenameUtils.getFullPath(path))) 
+    if(file.exists) backup
+    else forceMkdir(new File(FilenameUtils.getFullPath(path)))
+
     writeStringToFile(file, content, "UTF-8")
+  }
+
+  def backup() = {
+    val backupFile = new File(path.replaceAll(Page.sourceExt + "$", "." + (new Date).getTime.toString + Page.sourceExt))
+    copyFile(new File(path), backupFile)
   }
 
 }
