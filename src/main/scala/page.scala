@@ -25,6 +25,7 @@ object Page {
       .toString
   val sourceExt = ".md"
   val mdTitle = Pattern.compile("^#{1,6}(.*)(#{1,6})?$", Pattern.MULTILINE)
+  val password = Circumflex.cfg("pages.password").getOrElse("pass")
 
   def pathFromUri(uri : String) = FilenameUtils
       .concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt)
