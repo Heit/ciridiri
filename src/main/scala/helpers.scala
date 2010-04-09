@@ -1,7 +1,7 @@
 package ru.ciridiri
 
-import com.petebevin.markdown.MarkdownProcessor;
+import ru.circumflex.md.Markdown
 
 object Helpers {
-  def prettify(text : String) = new MarkdownProcessor().markdown(text)
+  def prettify(text : String) = Markdown(text)
 }

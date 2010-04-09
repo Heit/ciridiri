@@ -4,7 +4,7 @@ import java.io.File
 import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
 import ru.circumflex.core._
-import java.util.regex.{Pattern, Matcher}
+import java.util.regex.{Pattern}
 
 class Page(val uri : String, var content : String) {
   val path = Page.pathFromUri(uri)
@@ -12,28 +12,34 @@ class Page(val uri : String, var content : String) {
 
   def save() = {
     val file = new File(path)
-    if (!file.exists) forceMkdir(new File(FilenameUtils.getFullPath(path))) 
+    if (!file.exists)
+      forceMkdir(new File(FilenameUtils.getFullPath(path)))
     writeStringToFile(file, content, "UTF-8")
   }
 
 }
 
 object Page {
-  var contentDir = Circumflex.cfg("pages.root").getOrElse("src/main/webapp/pages").toString
+  var contentDir = Circumflex.cfg("pages.root")
+      .getOrElse("src/main/webapp/pages")
+      .toString
   val sourceExt = ".md"
   val mdTitle = Pattern.compile("^#{1,6}(.*)(#{1,6})?$", Pattern.MULTILINE)
 
-  def pathFromUri(uri : String) = FilenameUtils.concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt).replaceAll("^/", ""))
+  def pathFromUri(uri : String) = FilenameUtils
+      .concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt)
+      .replaceAll("^/", ""))
 
-  def uriFromPath(path : String) = FilenameUtils.separatorsToUnix(new File(path).getAbsolutePath.replaceAll("^" + new File(contentDir).getAbsolutePath, "").replaceAll(sourceExt + "$", ""))
+  def uriFromPath(path : String) = FilenameUtils
+      .separatorsToUnix(new File(path)
+      .getAbsolutePath
+      .replaceAll("^" + new File(contentDir).getAbsolutePath, "")
+      .replaceAll(sourceExt + "$", ""))
 
   def findByUri(uri : String) : Option[Page] = {
     val file = new File(pathFromUri(uri))
-      if (file.exists) {
-        return Some(new Page(uri, readFileToString(file, "UTF-8")))
-      } else {
-        return None
-      }
+    if (file.exists) Some(new Page(uri, readFileToString(file, "UTF-8")))
+    else None
   }
 
   def findByPath(path : String) : Option[Page] = findByUri(uriFromPath(path))

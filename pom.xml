@@ -7,30 +7,30 @@
   <groupId>ru.ciridiri</groupId>
   <artifactId>ciridiri</artifactId>
   <version>1.0</version>
-  <packaging>war</packaging>
-  <name>Simple Circumflex Application</name>
+  <packaging>jar</packaging>
+  <name>CiriDiri</name>
+  <description>CiriDiri — dead simple wiki engine on Circumflex</description>
 
   <properties>
     <port>8180</port>
+    <cx.version>0.3</cx.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>scala-tools</id>
-      <url>http://scala-tools.org/repo-releases</url>
-    </repository>
-  </repositories>
 
   <dependencies>
     <dependency>
       <groupId>ru.circumflex</groupId>
       <artifactId>circumflex-core</artifactId>
-      <version>0.2</version>
+      <version>${cx.version}</version>
     </dependency>
     <dependency>
       <groupId>ru.circumflex</groupId>
       <artifactId>circumflex-ftl</artifactId>
-      <version>0.2</version>
+      <version>${cx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.circumflex</groupId>
+      <artifactId>circumflex-md</artifactId>
+      <version>${cx.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -42,11 +42,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.markdownj</groupId>
-      <artifactId>markdownj</artifactId>
-      <version>0.3.0-1.0.2b4</version>
     </dependency>
   </dependencies>
 
@@ -84,6 +79,20 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1-alpha-1</version>
+        <executions>
+          <execution>
+            <id>war-package</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
