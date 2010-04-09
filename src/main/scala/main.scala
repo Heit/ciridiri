@@ -7,7 +7,7 @@ import _root_.java.text.SimpleDateFormat
 import _root_.java.util.Date
 import _root_.org.slf4j.LoggerFactory
 
-class Main extends RequestRouter
+class CiriDiri extends RequestRouter
     with FreemarkerHelper {
 
   val log = LoggerFactory.getLogger("ru.ciridiri")
