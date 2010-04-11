@@ -1,5 +1,5 @@
 [#ftl]
 [#include "layout.ftl"]
 [@page]
-<div class="content">${h.prettify(p.content)}</div>
+<div class="content">${ciridiri.prettify(ciripage.content)}</div>
 [/@page]

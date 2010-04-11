@@ -8,17 +8,17 @@ window.onload = function() {
 }
 </script>
 
-<form action="${p.uri}.html" method="post" onkeypress="ctrlEnterSubmit(event, this)">
+<form action="${ciripage.uri}.html" method="post" onkeypress="ctrlEnterSubmit(event, this)">
 <fieldset>
   <div>
-    <textarea rows="30" cols="20" id="p-content" name="content" style="width: 100%">${p.content?html}</textarea>
+    <textarea rows="30" cols="20" id="p-content" name="content" style="width: 100%">${ciripage.content?html}</textarea>
   </div>
   <div>
     <label for="password">Password: </label><input type="password" name="password" id="password" />
   </div>
 </fieldset>
 <fieldset class="submits">
-    <input type="submit" value="Save" /> or <a href="${p.uri}.html">cancel</a>
+    <input type="submit" value="Save" /> or <a href="${ciripage.uri}.html">cancel</a>
 </fieldset>
 </form>
 [/@page]
