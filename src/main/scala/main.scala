@@ -1,7 +1,6 @@
 package ru.ciridiri
 
 import _root_.ru.circumflex.core.RequestRouter
-import _root_.ru.circumflex.core.Circumflex
 import _root_.ru.circumflex.freemarker.FreemarkerHelper
 import _root_.org.slf4j.LoggerFactory
 
@@ -9,13 +8,13 @@ class CiriDiri extends RequestRouter
     with FreemarkerHelper {
 
   val log = LoggerFactory.getLogger("ru.ciridiri")
-  ctx += "h" -> Helpers 
+  ctx += "ciridiri" -> Helpers
 
   get("/") = redirect("/index.html")
 
   get("(.*)\\.html") = Page.findByUri(param("uri$1").get) match {
     case Some(page) =>
-      ctx += "p" -> page
+      ctx += "ciripage" -> page
       ftl("/ciridiri/page.ftl")
     case None =>
       redirect(ctx.uri + ".e")
@@ -30,20 +29,17 @@ class CiriDiri extends RequestRouter
   }
 
   get("(.*)\\.html.e") = {
-    ctx += "p" -> Page.findByUriOrEmpty(param("uri$1").get)
+    ctx += "ciripage" -> Page.findByUriOrEmpty(param("uri$1").get)
     ftl("/ciridiri/edit.ftl")
   }
 
-  post("(.*)\\.html") = {
-    if (Page.password != param("password").get)
-      error(403, "Forbidden: password mismatch")
-    else {
-      var page = Page.findByUriOrEmpty(param("uri$1").get)
-      page.content = param("content").get
-      page.save
-      ctx += "p" -> page
-      redirect(ctx.uri)
-    }
+  post("(.*)\\.html") = if (Page.password != param("password").get)
+    error(403, "Forbidden: password mismatch")
+  else {
+    var page = Page.findByUriOrEmpty(param("uri$1").get)
+    page.content = param("content").get
+    page.save
+    redirect(ctx.uri)
   }
 
 }
