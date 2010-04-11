@@ -20,13 +20,13 @@ class Page(val uri: String, var content: String) {
 }
 
 object Page {
-  var contentDir = Circumflex.cfg("pages.root")
+  var contentDir = Circumflex.cfg("ciridiri.contentRoot")
       .getOrElse("src/main/webapp/pages")
       .toString
   val sourceExt = ".md"
   val mdTitle = Pattern.compile("(^#\\s*?(\\S.*?)#*$)|(^ {0,3}(\\S.*?)\\n=+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
-  val password = Circumflex.cfg("pages.password").getOrElse("pass")
+  val password = Circumflex.cfg("ciridiri.password").getOrElse("pass")
 
   def pathFromUri(uri: String) = FilenameUtils
       .concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt)
