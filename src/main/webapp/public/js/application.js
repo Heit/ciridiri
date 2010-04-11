@@ -6,7 +6,7 @@ function NavigateThrough (event) {
   if (event.ctrlKey) {
     var link = null;
     var href = null;
-    switch (event.keyCode ? event.keyCode : event.which ? event.which : null) {
+    switch (event.keyCode ? event.keyCode: event.which ? event.which: null) {
       case 0x45:
         link = document.getElementById ('edit-link');
         break;
