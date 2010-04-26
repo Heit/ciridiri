@@ -19,13 +19,9 @@ class Page(val uri: String, var content: String) {
     writeStringToFile(file, content, "UTF-8")
   }
 
-  def cache() = {
-    writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
-  }
+  def cache() = writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
 
-  def sweep() = {
-    new File(cachedPath).delete
-  }
+  def sweep() = new File(cachedPath).delete
 
   def toHtml() = Markdown(content)
 
