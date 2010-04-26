@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
 import ru.circumflex.core._
 import java.util.regex.{Pattern}
+import ru.circumflex.md.Markdown
 
 class Page(val uri: String, var content: String) {
   val path = Page.pathFromUri(uri)
@@ -16,6 +17,8 @@ class Page(val uri: String, var content: String) {
       forceMkdir(new File(FilenameUtils.getFullPath(path)))
     writeStringToFile(file, content, "UTF-8")
   }
+
+  def toHtml() = Markdown(content)
 
 }
 
