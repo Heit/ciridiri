@@ -10,12 +10,21 @@ import ru.circumflex.md.Markdown
 class Page(val uri: String, var content: String) {
   val path = Page.pathFromUri(uri)
   val title = Page.findTitle(content)
+  val cachedPath = path + ".html"
 
   def save() = {
     val file = new File(path)
     if (!file.exists)
       forceMkdir(new File(FilenameUtils.getFullPath(path)))
     writeStringToFile(file, content, "UTF-8")
+  }
+
+  def cache() = {
+    writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
+  }
+
+  def sweep() = {
+    new File(cachedPath).delete
   }
 
   def toHtml() = Markdown(content)
