@@ -5,16 +5,35 @@ import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
 import ru.circumflex.core._
 import java.util.regex.{Pattern}
+import ru.circumflex.md.Markdown
 
 class Page(val uri: String, var content: String) {
   val path = Page.pathFromUri(uri)
   val title = Page.findTitle(content)
+  val cachedPath = path + ".html"
 
   def save() = {
     val file = new File(path)
     if (!file.exists)
       forceMkdir(new File(FilenameUtils.getFullPath(path)))
     writeStringToFile(file, content, "UTF-8")
+  }
+
+  def cache_!() = writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
+
+  def sweep_!() = new File(cachedPath).delete
+
+  def toHtml() = {
+    if (Page.caching_?) {
+      val f = new File(path)
+      val cf = new File(cachedPath)
+      if (!cf.exists || f.lastModified > cf.lastModified)
+        cache_!
+
+      readFileToString(cf, "UTF-8")
+    } else {
+      Markdown(content)
+    }
   }
 
 }
@@ -27,6 +46,12 @@ object Page {
   val mdTitle = Pattern.compile("(^#\\s*?(\\S.*?)#*$)|(^ {0,3}(\\S.*?)\\n=+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
   val password = Circumflex.cfg("ciridiri.password").getOrElse("pass")
+
+  def caching_?(): Boolean = Circumflex.cfg("ciridiri.caching").getOrElse(true) match {
+    case b: Boolean => b
+    case s: String => s.toBoolean
+    case _ => true
+  }
 
   def pathFromUri(uri: String) = FilenameUtils
       .concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt)

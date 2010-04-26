@@ -8,7 +8,6 @@ class CiriDiri extends RequestRouter
     with FreemarkerHelper {
 
   val log = LoggerFactory.getLogger("ru.ciridiri")
-  ctx += "ciridiri" -> Helpers
 
   get("/") = redirect("/index.html")
 
