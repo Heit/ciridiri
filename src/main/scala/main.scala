@@ -10,7 +10,7 @@ class CiriDiri extends RequestRouter
 
   get("*.html") {
     case uri(Page.ByUri(page)) =>
-      context('ciripage) = page
+      'ciripage := page
       ftl("/ciridiri/page.ftl")
     case _ =>
       redirect(uri + ".e")
@@ -26,7 +26,7 @@ class CiriDiri extends RequestRouter
 
   get("*.html.e") {
     case uri(Page.ByUriOrEmpty(page)) =>
-      context('ciripage) = page
+      'ciripage := page
       ftl("/ciridiri/edit.ftl")
   }
 
