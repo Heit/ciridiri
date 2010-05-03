@@ -1,14 +1,17 @@
 package ru.ciridiri
 
+import ru.circumflex.core._
+import ru.circumflex.md.Markdown
+
 import java.io.File
 import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
-import ru.circumflex.core._
-import java.util.regex.{Pattern}
+import java.util.regex.Pattern
 
 class Page(val uri: String, var content: String) {
   val path = Page.pathFromUri(uri)
   val title = Page.findTitle(content)
+  val cachedPath = path + ".html"
 
   def save() = {
     val file = new File(path)
@@ -17,16 +20,39 @@ class Page(val uri: String, var content: String) {
     writeStringToFile(file, content, "UTF-8")
   }
 
+  def cache_!() = writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
+
+  def sweep_!() = new File(cachedPath).delete
+
+  def toHtml() = {
+    if (Page.caching_?) {
+      val f = new File(path)
+      val cf = new File(cachedPath)
+      if (!cf.exists || f.lastModified > cf.lastModified)
+        cache_!
+
+      readFileToString(cf, "UTF-8")
+    } else {
+      Markdown(content)
+    }
+  }
+
 }
 
 object Page {
-  var contentDir = Circumflex.cfg("ciridiri.contentRoot")
+  var contentDir = Circumflex("ciridiri.contentRoot")
       .getOrElse("src/main/webapp/pages")
       .toString
   val sourceExt = ".md"
-  val mdTitle = Pattern.compile("(^#\\s*?(\\S.*?)#*$)|(^ {0,3}(\\S.*?)\\n=+(?=\\n+|\\Z))",
+  val mdTitle = Pattern.compile("(^#{1,3}\\s*?([^#].*?)#*$)|(^ {0,3}(\\S.*?)\\n(?:=|-)+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
-  val password = Circumflex.cfg("ciridiri.password").getOrElse("pass")
+  val password = Circumflex("ciridiri.password").getOrElse("pass")
+
+  def caching_?(): Boolean = Circumflex("ciridiri.caching").getOrElse(true) match {
+    case b: Boolean => b
+    case s: String => s.toBoolean
+    case _ => true
+  }
 
   def pathFromUri(uri: String) = FilenameUtils
       .concat(contentDir, (FilenameUtils.separatorsToSystem(uri) + sourceExt)
@@ -47,7 +73,7 @@ object Page {
 
   def findByPath(path: String): Option[Page] = findByUri(uriFromPath(path))
 
-  def findByUriOrEmpty(uri: String) = findByUri(uri).getOrElse(new Page(uri, ""))
+  def findByUriOrEmpty(uri: String): Page = findByUri(uri).getOrElse(new Page(uri, ""))
 
   def findTitle(text: String) = {
     val m = mdTitle.matcher(text)
@@ -59,4 +85,8 @@ object Page {
     else ""
   }
 
+  // Page extractors
+
+  object ByUri { def unapply(uri: String) = findByUri(uri) }
+  object ByUriOrEmpty { def unapply(uri: String) = Some(findByUriOrEmpty(uri)) }
 }
