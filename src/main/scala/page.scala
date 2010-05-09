@@ -44,7 +44,8 @@ object Page {
       .getOrElse("src/main/webapp/pages")
       .toString
   val sourceExt = ".md"
-  val mdTitle = Pattern.compile("(^#{1,3}\\s*?([^#].*?)#*$)|(^ {0,3}(\\S.*?)\\n(?:=|-)+(?=\\n+|\\Z))",
+  val mdTitle = Pattern.compile("(^#{1,3}\\s*?([^#].*?)#*(?: *\\{#.*?\\})?$)|" +
+      "(^ {0,3}(\\S.*?)(?: *\\{#.*?\\})?\\n(?:=|-)+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
   val password = Circumflex("ciridiri.password").getOrElse("pass")
 
