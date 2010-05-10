@@ -6,6 +6,8 @@ import ru.circumflex.md.Markdown
 import java.io.File
 import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
+import ru.circumflex.core._
+import ru.circumflex.md.Markdown
 import java.util.regex.Pattern
 
 class Page(val uri: String, var content: String) {
