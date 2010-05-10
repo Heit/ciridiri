@@ -1,25 +1,21 @@
 package ru.ciridiri
 
-import _root_.ru.circumflex.core.RequestRouter
-import _root_.ru.circumflex.freemarker.FreemarkerHelper
-import _root_.org.slf4j.LoggerFactory
+import ru.circumflex.core._
+import ru.circumflex.freemarker.FTL._
 
-class CiriDiri extends RequestRouter
-    with FreemarkerHelper {
-
-  val log = LoggerFactory.getLogger("ru.ciridiri")
+class CiriDiri extends RequestRouter {
 
   get("/") = redirect("/index.html")
 
-  get("(.*)\\.html") = Page.findByUri(param("uri$1").get) match {
+  get("*.html") = Page.findByUri(uri(1)) match {
     case Some(page) =>
-      ctx += "ciripage" -> page
+      "ciripage" := page
       ftl("/ciridiri/page.ftl")
     case None =>
-      redirect(ctx.uri + ".e")
+      redirect(uri + ".e")
   }
 
-  get("(.*)\\.md") = Page.findByUri(param("uri$1").get) match {
+  get("*.md") = Page.findByUri(uri(1)) match {
     case Some(page) =>
       contentType("text/plain; charset=utf-8")
       page.content
@@ -27,18 +23,18 @@ class CiriDiri extends RequestRouter
       error(404, "Page not found")
   }
 
-  get("(.*)\\.html.e") = {
-    ctx += "ciripage" -> Page.findByUriOrEmpty(param("uri$1").get)
+  get("*.html.e") = {
+    "ciripage" := Page.findByUriOrEmpty(uri(1))
     ftl("/ciridiri/edit.ftl")
   }
 
-  post("(.*)\\.html") = if (Page.password != param("password").get)
+  post("*.html") = if (Page.password != param('password).get)
     error(403, "Forbidden: password mismatch")
   else {
-    var page = Page.findByUriOrEmpty(param("uri$1").get)
-    page.content = param("content").get
+    var page = Page.findByUriOrEmpty(uri(1))
+    page.content = param('content).get
     page.save
-    redirect(ctx.uri)
+    redirect(uri.toString)
   }
 
 }

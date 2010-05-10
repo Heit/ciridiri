@@ -4,8 +4,8 @@ import java.io.File
 import org.apache.commons.io.FileUtils._
 import org.apache.commons.io.FilenameUtils
 import ru.circumflex.core._
-import java.util.regex.{Pattern}
 import ru.circumflex.md.Markdown
+import java.util.regex.Pattern
 
 class Page(val uri: String, var content: String) {
   val path = Page.pathFromUri(uri)
@@ -39,16 +39,16 @@ class Page(val uri: String, var content: String) {
 }
 
 object Page {
-  var contentDir = Circumflex.cfg("ciridiri.contentRoot")
+  var contentDir = Circumflex("ciridiri.contentRoot")
       .getOrElse("src/main/webapp/pages")
       .toString
   val sourceExt = ".md"
   val mdTitle = Pattern.compile("(^#{1,3}\\s*?([^#].*?)#*(?: *\\{#.*?\\})?$)|" +
       "(^ {0,3}(\\S.*?)(?: *\\{#.*?\\})?\\n(?:=|-)+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
-  val password = Circumflex.cfg("ciridiri.password").getOrElse("pass")
+  val password = Circumflex("ciridiri.password").getOrElse("pass")
 
-  def caching_?(): Boolean = Circumflex.cfg("ciridiri.caching").getOrElse(true) match {
+  def caching_?(): Boolean = Circumflex("ciridiri.caching").getOrElse(true) match {
     case b: Boolean => b
     case s: String => s.toBoolean
     case _ => true
