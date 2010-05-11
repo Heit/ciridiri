@@ -9,7 +9,7 @@ trait AuthHelper extends RequestRouter {
     if(!authorized_?) {
       if(Page.password != param("password").get) {
         error(403, "Forbidden: password mismatch")
-      } else {
+      } else if(Page.rememberMe) {
         session("arni") = true
       }
     }
