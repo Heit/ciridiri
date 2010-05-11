@@ -20,7 +20,7 @@ And point your browser to http://localhost:8180/
 _Note: default password is `pass`._
 
 The usage is very simple. Create new pages through accessing `http://localhost:8180/path/to/new/page.html`.  
-Edit existent page through accessing `http://localhost:8180/existent/page.html.e` or just press `ctrl-e`.
+Edit existent page through accessing `http://localhost:8180/existent/page.html.e` or just press `ctrl-shift-e`.
 
 ##Formatting
 ciridiri proudly uses [circumflex-markdown](http://circumflex.ru/index.html#md) implementation of [markdown](http://daringfireball.net/projects/markdown/) to format pages.
