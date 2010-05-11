@@ -3,7 +3,7 @@ package ru.ciridiri
 import ru.circumflex.core._
 import ru.circumflex.freemarker.FTL._
 
-class CiriDiri extends RequestRouter {
+class CiriDiri extends RequestRouter with AuthHelper{
 
   get("/") = redirect("/index.html")
 
@@ -28,9 +28,8 @@ class CiriDiri extends RequestRouter {
     ftl("/ciridiri/edit.ftl")
   }
 
-  post("*.html") = if (Page.password != param('password).get)
-    error(403, "Forbidden: password mismatch")
-  else {
+  post("*.html") = {
+    protected_!
     var page = Page.findByUriOrEmpty(uri(1))
     page.content = param('content).get
     page.save
