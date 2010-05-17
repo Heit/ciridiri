@@ -3,6 +3,14 @@
 ciridiri is a wiki-like web application. It is based on [circumflex][] and
 ideas of [diri](http://repo.cat-v.org/diri/).
 
+##Features
+
+* No database required, uses plain text files;
+* Pagecaching for quicker rendering;
+* Easy navigation through keyboard shortcuts;
+* [markdown][];
+* clean and simple.
+
 ##Requirements
 
 * maven
@@ -23,16 +31,18 @@ The usage is very simple. Create new pages through accessing `http://localhost:8
 Edit existent page through accessing `http://localhost:8180/existent/page.html.e` or just press `ctrl-shift-e`.
 
 ##Formatting
-ciridiri proudly uses [circumflex-markdown](http://circumflex.ru/index.html#md) implementation of [markdown](http://daringfireball.net/projects/markdown/) to format pages.
+ciridiri proudly uses [circumflex-markdown](http://circumflex.ru/index.html#md) implementation of [markdown][] to format pages.
 
 ##Configuration
 See `src/main/resources/cx.properties`. There are few options available:
 
 * `ciridiri.contentRoot` -- where pages will be stored;
 * `ciridiri.password` -- password for pages;
-* `ciriridi.caching` -- page fragments caching.
+* `ciriridi.caching` -- page fragments caching;
+* `ciridiri.rememberMe`.
 
 ##See also
 [circumflex][]: lightweight Scala-based Web application framework and ORM
 
 [circumflex]: http://circumflex.ru/
+[markdown]: http://daringfireball.net/projects/markdown/
