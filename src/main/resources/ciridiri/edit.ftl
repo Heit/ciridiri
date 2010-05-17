@@ -13,9 +13,11 @@ window.onload = function() {
   <div>
     <textarea rows="30" cols="20" id="p-content" name="content" style="width: 100%">${ciripage.content?html}</textarea>
   </div>
+  [#if !session.arni??]
   <div>
     <label for="password">Password: </label><input type="password" name="password" id="password" />
   </div>
+  [/#if]
 </fieldset>
 <fieldset class="submits">
     <input type="submit" value="Save" /> or <a href="${ciripage.uri}.html">cancel</a>
