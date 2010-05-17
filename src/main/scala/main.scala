@@ -12,7 +12,7 @@ class CiriDiri extends RequestRouter with AuthHelper{
       "ciripage" := page
       ftl("/ciridiri/page.ftl")
     case None =>
-      redirect(uri + ".e")
+      redirect(uri(0) + ".e")
   }
 
   get("*.md") = Page.findByUri(uri(1)) match {
@@ -31,9 +31,9 @@ class CiriDiri extends RequestRouter with AuthHelper{
   post("*.html") = {
     protected_!
     var page = Page.findByUriOrEmpty(uri(1))
-    page.content = param('content).get
+    page.content = param('content)
     page.save
-    redirect(uri.toString)
+    redirect(uri(0))
   }
 
 }
