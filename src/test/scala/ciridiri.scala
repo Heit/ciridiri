@@ -18,7 +18,9 @@ object CiridiriSpec extends Specification {
   doBeforeSpec {
     Circumflex("cx.router") = classOf[CiriDiri]
     Circumflex("ciridiri.contentRoot") = tempRoot //seems like not working
+    Circumflex("ciridiri.rememberMe") = false //that's too
     Page.contentDir = tempRoot
+    Page.rememberMe = false
     forceMkdir(new File(tempRoot))
     app.start
   }
