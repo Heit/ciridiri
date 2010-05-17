@@ -45,7 +45,11 @@ object Page {
       "(^ {0,3}(\\S.*?)(?: *\\{#.*?\\})?\\n(?:=|-)+(?=\\n+|\\Z))",
     Pattern.MULTILINE)
   val password = Circumflex.getOrElse("ciridiri.password", "pass")
-
+  var rememberMe = Circumflex.get("ciridiri.rememberMe") match {
+    case Some(b: Boolean) => b
+    case Some(s: String) => s.toBoolean
+    case _ => true
+  }
   def caching_?(): Boolean = Circumflex.get("ciridiri.caching") match {
     case Some(b: Boolean) => b
     case Some(s: String) => s.toBoolean
