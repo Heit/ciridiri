@@ -26,19 +26,17 @@ class Page(val uri: String, var content: String) {
 
   def sweep_!() = new File(cachedPath).delete
 
-  def toHtml() = {
-    if (Page.caching_?) {
-      val f = new File(path)
-      val cf = new File(cachedPath)
-      if (!cf.exists || f.lastModified > cf.lastModified)
-        cache_!
-
-      readFileToString(cf, "UTF-8")
-    } else {
-      Markdown(content)
-    }
+  lazy val toHtml = if (Page.caching_?) {
+    val f = new File(path)
+    val cf = new File(cachedPath)
+    if (!cf.exists || f.lastModified > cf.lastModified)
+      cache_!
+    readFileToString(cf, "UTF-8")
+  } else {
+    Markdown(content)
   }
 
+  override def toString = "[" + title + "](" + cachedPath + ")"
 }
 
 object Page {
