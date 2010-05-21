@@ -36,7 +36,7 @@ class Page(val uri: String, var content: String) {
     Markdown(content)
   }
 
-  override def toString = "[" + title + "](" + cachedPath + ")"
+  override def toString = "[" + title + "](" + uri + ".html)"
 }
 
 object Page {
