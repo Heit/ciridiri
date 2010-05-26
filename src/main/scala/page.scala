@@ -19,7 +19,7 @@ class Page(val uri: String, var content: String) {
     val file = new File(path)
     if (!file.exists)
       forceMkdir(new File(FilenameUtils.getFullPath(path)))
-    writeStringToFile(file, content, "UTF-8")
+    writeStringToFile(file, content.replaceAll("\\r\\n|\\r","\n"), "UTF-8")
   }
 
   def cache_!() = writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
