@@ -23,4 +23,8 @@ window.onload = function() {
     <input type="submit" value="Save" /> or <a href="${ciripage.uri}.html">cancel</a>
 </fieldset>
 </form>
+<form method="post" action="${ciripage.uri}.html">
+  <input type="hidden" name="_method" value="delete" />
+  <input type="submit" value="Delete" />
+</form>
 [/@page]

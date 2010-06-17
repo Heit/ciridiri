@@ -93,6 +93,16 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.0</version>
+        <extensions>false</extensions>
+        <inherited>true</inherited>
+        <configuration>
+          <classifier>heit</classifier>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <encoding>UTF-8</encoding>

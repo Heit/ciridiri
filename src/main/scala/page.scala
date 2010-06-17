@@ -19,7 +19,17 @@ class Page(val uri: String, var content: String) {
     val file = new File(path)
     if (!file.exists)
       forceMkdir(new File(FilenameUtils.getFullPath(path)))
-    writeStringToFile(file, content.replaceAll("\\r\\n|\\r","\n"), "UTF-8")
+    writeStringToFile(file, content.replaceAll("\\r\\n|\\r", "\n"), "UTF-8")
+  }
+
+  def delete_!() = {
+    if (Page.caching_?) sweep_!
+    val file = new File(path)
+    forceDelete(file)
+    val parent: File = file.getParentFile()
+    if (parent.list().length == 0 &&
+        new File(Page.contentDir).getAbsolutePath != parent.getAbsolutePath)
+      forceDelete(parent)
   }
 
   def cache_!() = writeStringToFile(new File(cachedPath), Markdown(content), "UTF-8")
@@ -51,6 +61,7 @@ object Page {
     case Some(s: String) => s.toBoolean
     case _ => true
   }
+
   def caching_?(): Boolean = Circumflex.get("ciridiri.caching") match {
     case Some(b: Boolean) => b
     case Some(s: String) => s.toBoolean

@@ -4,7 +4,6 @@ import ru.circumflex.core._
 import ru.circumflex.freemarker.FTL._
 
 class CiriDiri extends RequestRouter with AuthHelper {
-
   get("/") = redirect("/index.html")
 
   get("+.html") = Page.findByUri(uri(1)) match {
@@ -37,7 +36,16 @@ class CiriDiri extends RequestRouter with AuthHelper {
     var page = Page.findByUriOrEmpty(uri(1))
     page.content = param('content)
     page.save
+    onUpdate(page)
     redirect(uri(0))
+  }
+
+  delete("+.html") = Page.findByUri(uri(1)) match {
+    case None => error(404)
+    case Some(page) =>
+      page.delete_!
+      onDelete(page)
+      redirect("/")
   }
 
   // ## Callbacks
@@ -53,6 +61,11 @@ class CiriDiri extends RequestRouter with AuthHelper {
   //     }
 
   def onFound(page: Page): Unit = {}
+
   def onNotFound(): Unit = {}
+
+  def onUpdate(page: Page): Unit = {}
+
+  def onDelete(page: Page): Unit = {}
 
 }
